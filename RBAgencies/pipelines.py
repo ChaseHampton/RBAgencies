@@ -10,4 +10,7 @@ from itemadapter import ItemAdapter
 
 class RbagenciesPipeline:
     def process_item(self, item, spider):
+        adapt = ItemAdapter(item)
+        if adapt.get('agency'):
+            adapt['agency'] = adapt['agency'].replace('./Selection.aspx?agency=', '')
         return item
