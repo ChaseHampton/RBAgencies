@@ -20,6 +20,8 @@ test-output.*
 .mypy_cache/
 /tests/keys/localhost.crt
 /tests/keys/localhost.key
+out.json
+launch.json
 
 # Windows
 Thumbs.db
