@@ -9,10 +9,13 @@ class RbagenciesspiderSpider(CrawlSpider):
     start_urls = ['https://www.reportbeam.com/ecommerceportal/selection.aspx']
 
     rules = (
-        Rule(LinkExtractor(restrict_xpaths=r'//a[contains(@href, "./Selection")]'), callback='parse_item', follow=True),
+        Rule(LinkExtractor(restrict_xpaths=r'//a[contains(@href, "./Selection.aspx?state")]'), callback='parse_item', follow=True),
     )
 
     def parse_item(self, response):
-        agencies = response.xpath('//a[contains(@href, "/Selection.aspx?agency")]/@href').getall()
+        agencies = response.css('table#ctl00_cplhMainContent_grdAgencySelection tr:not(.grd_Heading)')
         for agency in agencies:
-            yield {'agency': agency}
+            yield {
+                'AgencyName': agency.xpath('./td/text()').getall()[0],
+                'WebsiteAgencyName': agency.xpath('.//a/@href').get()
+            }
